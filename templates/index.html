@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script language="JavaScript" type="text/javascript" src="{{url_for('static',filename='scripts/jquery-3.6.0.min.js')}}"></script>
+    <script type=text/javascript>
+        $SCRIPT_ROOT ={{ request.script_root|tojson|safe }};
+    </script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.css') }}">
+    <script>
+        $(document).ready(function(){
+            $('.visualize').bind('click', function() {
+              const element = document.getElementById("js_update");
+              element.innerHTML = "Please wait, we re running all models on the dataset provided. It will take roughly 2-5 mins depending on the dataset";
+                $.getJSON($SCRIPT_ROOT + '/_ajax_user_input',
+                          { user_input: $('#file_visualize').val(),}
+                          );
+                window.open('http://127.0.0.1:5000/visualize','_blank');
+                window.open('http://127.0.0.1:5000/show_tables','_blank');
+                return false;
+            });
+        });
+    </script>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark" data-new-gr-c-s-check-loaded="14.1016.0" data-gr-ext-installed>
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+      <div>
+        <h3 class="float-md-start mb-0">EDUBLOCK</h3>
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+          <!--<a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="#">Contact</a><-->
+        </nav>
+      </div>
+    </header>
+    <main class="px-3">
+      <h1>EDUBLOCK</h1>
+      <p class="lead">Secure Educational Certificates</p>
+      <p class="lead">Upload Your Degree</p>
+      <form  action="/read_file" method="post" enctype="multipart/form-data">
+        <input type="file" id="file" name="file" class="btn btn-lg btn-secondary fw-bold border-white"></p>
+        <input type="submit" value="Upload"/>
+        {{op|safe}}
+      </form>
+      <form action="/mine_block" method="post" enctype="multipart/form-data">
+        <input type="submit" class="mine_block" value="Create Block with the uploaded image"/>
+      </form>
+      <form action="/get_chain" method="post" enctype="multipart/form-data">
+        <input type="submit" class="get_chain" value="Get Entire Chain"/>
+      </form>
+      <form action="/is_valid" method="post" enctype="multipart/form-data">
+        <input type="submit" class="get_chain" value="Validate Chain"/>
+      </form>
+      <form action="/connect_node" method="post" enctype="multipart/form-data">
+        <input type="text" id="node" name="node"><br><br>
+        <input type="submit" class="connect_node" value="Add Nodes"/>
+      </form>
+    </main>
+    </div>
+</body>
