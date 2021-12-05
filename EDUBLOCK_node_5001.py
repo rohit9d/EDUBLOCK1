@@ -118,6 +118,7 @@ blockchain=BlockChain()
 ## Create a web app for the API
 ### Mining the new block
 tex=""
+verify_cert=""
 @app.route('/mine_block', methods = ['GET','POST'])
 def mine_block():
     global tex
@@ -204,6 +205,23 @@ def read_file():
         return render_template('index.html',op="file successfully uploaded",)
     else:
         return render_template('index.html')
+@app.route("/verify_certficate", methods=['GET','POST'])
+def verify_certficate():
+    global verif_cert
+    if request.method == 'POST':
+        file = request.files['file']
+        filename=file.filename
+        file.save(os.path.join("uploads",file.filename))
+        f="uploads/"+str(file.filename)
+        verify_cert=ocr_core(f)
+        chain1=blockchain.chain
+        for i in chain1:
+                if(len(i['transactions'])>=1):
+                    for j in i['transactions']:
+                        if(j['Data']== verify_cert):
+                            return jsonify({'message':'Certificate'})
+        return jsonify({'message':'Certificate not verified'}), 200
+
 
 @app.route('/', methods =['GET'])
 def HOME():
@@ -211,4 +229,4 @@ def HOME():
 
 # Running the app
 if __name__=="__main__":
-    app.run(host="192.168.50.234",port="5001")
+    app.run(port="5001")

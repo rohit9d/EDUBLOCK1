@@ -48,6 +48,14 @@
         <input type="submit" value="Upload"/>
         {{op|safe}}
       </form>
+      <p>
+      <p class="lead">Verify Educational Certificates</p>
+      <p class="lead">Upload Your Degree</p>
+      <form  action="/verify_certficate" method="post" enctype="multipart/form-data">
+        <input type="file" id="file" name="file" class="btn btn-lg btn-secondary fw-bold border-white"></p>
+        <input type="submit" value="Verify"/>
+        {{op1|safe}}
+      </form>
       <form action="/mine_block" method="post" enctype="multipart/form-data">
         <input type="submit" class="mine_block" value="Create Block with the uploaded image"/>
       </form>
@@ -56,10 +64,6 @@
       </form>
       <form action="/is_valid" method="post" enctype="multipart/form-data">
         <input type="submit" class="get_chain" value="Validate Chain"/>
-      </form>
-      <form action="/connect_node" method="post" enctype="multipart/form-data">
-        <input type="text" id="node" name="node"><br><br>
-        <input type="submit" class="connect_node" value="Add Nodes"/>
       </form>
     </main>
     </div>
